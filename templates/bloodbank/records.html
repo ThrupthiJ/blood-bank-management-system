@@ -1,0 +1,84 @@
+
+{% extends 'bloodbank/base.html' %}
+
+{% block title %}{{ page_title }} | BBMS{% endblock %}
+{% block heading %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <h2>{{ page_title }}</h2>
+            <p>Review saved department records.</p>
+        </div>
+        <a class="button" href="{% url add_url %}">Add Record</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    {% if record_type == 'donors' %}
+                        <th>Name</th>
+                        <th>Blood Group</th>
+                        <th>Screening Date</th>
+                        <th>Status</th>
+                    {% elif record_type == 'components' %}
+                        <th>Batch Number</th>
+                        <th>Donor</th>
+                        <th>Component</th>
+                        <th>Quantity</th>
+                        <th>Separation Date</th>
+                    {% elif record_type == 'storage' %}
+                        <th>Component Batch</th>
+                        <th>Location</th>
+                        <th>Expiry Date</th>
+                        <th>Units</th>
+                        <th>Status</th>
+                    {% else %}
+                        <th>Recipient</th>
+                        <th>Storage Record</th>
+                        <th>Quantity</th>
+                        <th>Dispatch Date</th>
+                        <th>Status</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    {% if record_type == 'donors' %}
+                        <td>{{ record.full_name }}</td>
+                        <td>{{ record.blood_group }}</td>
+                        <td>{{ record.screening_date }}</td>
+                        <td>{{ record.screening_status }}</td>
+                    {% elif record_type == 'components' %}
+                        <td>{{ record.batch_number }}</td>
+                        <td>{{ record.donor.full_name }}</td>
+                        <td>{{ record.get_component_type_display }}</td>
+                        <td>{{ record.quantity_units }}</td>
+                        <td>{{ record.separation_date }}</td>
+                    {% elif record_type == 'storage' %}
+                        <td>{{ record.component.batch_number }}</td>
+                        <td>{{ record.storage_location }}</td>
+                        <td>{{ record.expiry_date }}</td>
+                        <td>{{ record.available_units }}</td>
+                        <td>{{ record.status }}</td>
+                    {% else %}
+                        <td>{{ record.recipient_hospital }}</td>
+                        <td>{{ record.storage.storage_location }}</td>
+                        <td>{{ record.quantity_units }}</td>
+                        <td>{{ record.dispatch_date }}</td>
+                        <td>{{ record.status }}</td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No records available yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,45 @@
+
+
+{% extends 'bloodbank/base.html' %}
+
+{% block title %}Dashboard | BBMS{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="welcome">
+    <h2>Blood Bank Overview</h2>
+    <p>Monitor donor screening, blood components, storage and dispatch.</p>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <p>Registered Donors</p>
+        <h2>{{ donor_count }}</h2>
+        <a href="{% url 'donors' %}">View donors</a>
+    </article>
+
+    <article class="stat-card">
+        <p>Component Batches</p>
+        <h2>{{ component_count }}</h2>
+        <a href="{% url 'components' %}">View components</a>
+    </article>
+
+    <article class="stat-card">
+        <p>Storage Records</p>
+        <h2>{{ storage_count }}</h2>
+        <a href="{% url 'storage' %}">View storage</a>
+    </article>
+
+    <article class="stat-card">
+        <p>Dispatch Records</p>
+        <h2>{{ dispatch_count }}</h2>
+        <a href="{% url 'dispatches' %}">View dispatches</a>
+    </article>
+</section>
+
+<section class="panel">
+    <h2>Department Management</h2>
+    <p>Choose a department from the navigation menu to manage records.</p>
+</section>
+{% endblock %}
+

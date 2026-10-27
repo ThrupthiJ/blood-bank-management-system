@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}BBMS | Blood Bank Management{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="brand" href="{% url 'dashboard' %}">
+            BBMS
+            <span>Blood Bank Management System</span>
+        </a>
+
+        <nav>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'donors' %}">Donor Screening</a>
+            <a href="{% url 'components' %}">Component Separation</a>
+            <a href="{% url 'storage' %}">Cold Storage</a>
+            <a href="{% url 'dispatches' %}">Dispatch</a>
+            <a href="/admin/">Administration</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        {% if request.resolver_match.url_name != 'donor_add' and request.resolver_match.url_name != 'component_add' and request.resolver_match.url_name != 'storage_add' and request.resolver_match.url_name != 'dispatch_add' %}
+            <header class="topbar">
+                <h1>{% block heading %}Dashboard{% endblock %}</h1>
+                <p>Manage donors, blood components, storage and dispatch.</p>
+            </header>
+        {% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+</body>
+</html>
+
+

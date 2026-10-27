@@ -1,0 +1,54 @@
+
+{% extends 'bloodbank/base.html' %}
+
+{% block title %}{{ page_title }} | BBMS{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+    <h1>{{ page_title }}</h1>
+    <p>Enter the details below to create a new record.</p>
+</div>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h2>{{ page_title }}</h2>
+        <p>Complete all required fields before saving.</p>
+    </div>
+
+    <form method="POST" class="record-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form-error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="form-field">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                        <span class="required-mark">*</span>
+                    {% endif %}
+                </label>
+
+                {{ field }}
+
+                {% if field.help_text %}
+                    <small class="field-help">{{ field.help_text }}</small>
+                {% endif %}
+
+                {% for error in field.errors %}
+                    <small class="field-error">{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Save Record</button>
+            <a href="{% url back_url %}" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
